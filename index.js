@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 //const passportConfig = require('./config/passport');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 require('./models/User');
 require('./services/passport');
@@ -12,6 +13,8 @@ require('./services/passport');
 mongoose.connect(keys.mongoURI);
 
 const app = express();
+
+app.use(bodyParser.json());
 
 // each app.use is a middleware can be used to modify incoming 
 //                       req before sent off to route handlers
@@ -27,6 +30,7 @@ app.use(passport.session());
 
 //const authRoutes = require('./routes/authRoutes');
 require('./routes/authRoutes')(app);
+require('./routes/billingRoutes')(app);
 /* app.get('/', (req, res) => {
     res.send({ by: 'buddy' });
 }); */
