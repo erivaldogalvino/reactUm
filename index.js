@@ -8,6 +8,23 @@ const keys = require('./config/keys');
 require('./models/User');
 require('./services/passport');
 
+/* ---> begin of push server
+const server = require("http").Server(express);
+const io = require('socket.io')(server);
+
+io.on('connection', (client) => {
+    client.on('subscribeToTimer', (interval) => {
+      console.log('client is subscribing to timer with interval ', interval);
+      setInterval(() => {
+        client.emit('timer', new Date());
+      }, interval);
+    });
+  });
+
+const port1 = 8000;
+io.listen(port1);
+console.log('listening on port ', port1);
+ ---> end of push server */
 
 // console.log(mongoose.connect(keys.mongoURI));
 mongoose.connect(keys.mongoURI);

@@ -3,15 +3,13 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const mongoose = require('mongoose');
 const Keys = require('../config/keys.js');
 
-//-> mongoose.model with one argument read a collection of the database
+//-> mongoose.model com um argumento lê a collection of the database
 const User = mongoose.model('users');
 
 passport.serializeUser((user, done) => { 
     done(null, user.id);  // user.id mongo ObjectId 
 });
-                         // if you remember how we use done in JS
-                         // you will guess that "done" is used by passport
-                         // to put user inner the req object
+                        
 passport.deserializeUser((id, done) => {   // this id is a profile.id
     User.findById(id).then(user => {
         done(null, user);
