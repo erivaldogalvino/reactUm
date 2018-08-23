@@ -6,11 +6,12 @@ const Keys = require('../config/keys.js');
 //-> mongoose.model com um argumento lê a collection of the database
 const User = mongoose.model('users');
 
+              // done = func que serializa e des-serializa
 passport.serializeUser((user, done) => { 
     done(null, user.id);  // user.id mongo ObjectId 
 });
                         
-passport.deserializeUser((id, done) => {   // this id is a profile.id
+passport.deserializeUser((id, done) => {   // Este id é o profile.id
     User.findById(id).then(user => {
         done(null, user);
     });
@@ -22,9 +23,10 @@ passport.use(
     clientSecret: Keys.googleClientSecret,
     callbackURL: '/auth/google/callback',
     proxy: true
-    // proxy resolves the return of google Strategy ...or put above 
-    // the entire address like https://localhost:5000/auth/google
-    // probably use a key for dev and prod ... or use "proxy:" like bellow
+    // proxy resolveo retornodo google Strategy ... ou coloque acima 
+    // o endereço completo como https://localhost:5000/auth/google
+    // provavelmente usando uma chave pra dev e prod ...
+    // ou use "proxy:" como acima
 
     }, 
         async (accessToken, refreshToken, profile, done) => {

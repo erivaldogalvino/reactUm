@@ -52,6 +52,19 @@ require('./routes/billingRoutes')(app);
     res.send({ by: 'buddy' });
 }); */
 
+// rodar client com Express na prod "Routing in Production"
+// lembrar que o heroku substitui esta var de ambiente
+if (process.env.NODE_ENV === 'production') {
+    // Express serve os recursos de producao como client/build/static/js/main.js e css
+    app.use(express.static('client/build'));
+
+    // Express serve index.html se nao reconhece a rots
+    const path = require('path');
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+}
+
 const PORT = process.env.PORT || 5000;
 // const PORT = 5000;
 app.listen(PORT);
