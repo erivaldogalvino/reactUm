@@ -6,7 +6,9 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 require('./models/User');
+require('./models/Survey');
 require('./services/passport');
+
 
 /* ---> begin of push server
 const server = require("http").Server(express);
@@ -48,6 +50,7 @@ app.use(passport.session());
 //const authRoutes = require('./routes/authRoutes');
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
+require('./routes/surveyRoutes')(app);
 /* app.get('/', (req, res) => {
     res.send({ by: 'buddy' });
 }); */
@@ -58,7 +61,7 @@ if (process.env.NODE_ENV === 'production') {
     // Express serve os recursos de producao como client/build/static/js/main.js e css
     app.use(express.static('client/build'));
 
-    // Express serve index.html se nao reconhece a rots
+    // Express serve index.html se nao reconhece a rotas nas passagens antes deste if
     const path = require('path');
     app.get('*', (req, res) => {
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));

@@ -29,6 +29,9 @@ passport.use(
     // ou use "proxy:" como acima
 
     }, 
+         // como 2o param 
+        // para testar ret---> accessToken { console.log(accessToken) / refreshToken e profile }; 
+        // se chegou aqui é pq o passport ja negociou com o google (reenviou o cod) e este retorna o profile
         async (accessToken, refreshToken, profile, done) => {
             const existingUser = await User.findOne({ googleId: profile.id });
 
