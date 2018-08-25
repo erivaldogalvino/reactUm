@@ -9,6 +9,10 @@ import reduxThunk from 'redux-thunk';  // a middleware that inspect action creat
 import App from './components/App';
 import reducers from './reducers';  // import ./reducers/index.js  by convention
 
+// temporario pra teste do email
+import axios from 'axios';
+window.axios = axios;
+
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 
 ReactDom.render(
