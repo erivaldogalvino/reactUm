@@ -9,8 +9,9 @@ class Mailer extends helper.Mail {
         super();
         
         this.sgApi = sendgrid(keys.sendGridKey);
+        //this.sgApi = sendgrid('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');
                             // helper e Content sao utils da library
-        this.from_email = new helper.Email('no-reply@emaily.com');
+        this.from_email = new helper.Email('no-replay@emaily.com');
         this.subject = subject;
         this.body = new helper.Content('text/html', content);
         this.recipients = this.formatAddresses(recipients);
@@ -46,14 +47,17 @@ class Mailer extends helper.Mail {
     }
 
     async send() {
-        const request = this.sgApi.emptyRequest({
-            method: 'POST',
-            path: '/v3/mail/send',
-            body: this.toJSON()
-        });
-
-        const response = this.sgApi.API(request);
-        return response;
+        try {
+            const request = this.sgApi.emptyRequest({
+                method: 'POST',
+                path: '/v3/mail/send',
+                body: this.toJSON()
+            });
+            const response = await this.sgApi.API(request);
+            return response;
+        }   catch (err) {
+            console.log(err.response.body.errors);
+        }
     }
 }
 

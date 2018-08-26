@@ -7,7 +7,12 @@ const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 const Survey = mongoose.model('surveys');
 
 module.exports = app => {
-    app.post('/api/surveys', requireLogin, requireCredits, (req, res) => {
+    app.get('/api/surveys/thanks', (req, res) => {
+        res.send('Agradecido por votar!');
+    });
+
+
+    app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
         const { title, subject, body, recipients } = req.body;   // destructing
 
         const survey = new Survey({
@@ -23,6 +28,26 @@ module.exports = app => {
         });
         // Aqui é ideal para enviar um email.
         const mailer = new Mailer(survey, surveyTemplate(survey));
-        mailer.send();
+        // eu que coloquei pq subject ta vindo vazio
+        mailer.subject = 'Assunto de teste';  // eu que coloquei pq ta vindo vazio
+        // console.log(mailer.subject);
+
+        try {
+            await mailer.send();
+            await survey.save();
+            req.user.credits -= 1;
+            const user = await req.user.save();
+
+            res.send(user);
+        }   catch (err) {
+            res.status(422).send(err);
+        }
     });
 };
+
+//       -> Pra testar na console
+// const survey = { title:'titulo teste', subject: 'assunto teste', recipients: 'billperroni@gmail.com', body: 'o corpo do email' };
+// axios.post('/api/surveys', survey);
+//       -> e colocar no index.js do frontend (cliente)
+// import axios from 'axios';
+// window.axios = axios;
