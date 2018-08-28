@@ -2,7 +2,7 @@
 // 
 import { FETCH_USER } from '../actions/types';
 export default function(state = null, action ) {
-    console.log(action);   // test if current_user was returned
+    // console.log(action);   // test if current_user was returned
     switch (action.type) {
         case FETCH_USER:
             return action.payload || false;

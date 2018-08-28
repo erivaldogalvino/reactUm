@@ -11,6 +11,7 @@
         }
     },
     "dependencies": {
+        "@types/redux-form": "^7.4.6",
         "axios": "^0.18.0",
         "materialize-css": "^0.100.2",
         "react": "^16.4.2",
